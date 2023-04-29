@@ -6,20 +6,26 @@ import {python} from '@codemirror/lang-python'
 import {Codemirror} from "vue-codemirror";
 import {getCodemirrorConfig} from "./codemirrorConfig/getCodemirrorConfig.ts";
 import {CODEMIRROR_TYPE} from "./codemirrorConfig/types.ts";
+import {getCodemirrorMetadata} from "./reflect/getCodemirrorMetadata.ts";
+import {Config} from "./reflect/Config.ts";
 
 const code = ref('')
 const result = ref('请点击执行按钮')
 const view = shallowRef<EditorView>(null!)
+// const codeConfig = getCodemirrorConfig(code, {
+//     functions: [
+//         {
+//             label: 'add',
+//             template: 'add(${arg0}, ${arg1})',
+//             func: (a: number, b: number) => a + b,
+//             returnType: [CODEMIRROR_TYPE.number],
+//             paramTypes: [[CODEMIRROR_TYPE.number], [CODEMIRROR_TYPE.number]]
+//         }
+//     ]
+// })
+
 const codeConfig = getCodemirrorConfig(code, {
-    functions: [
-        {
-            label: 'add',
-            template: 'add(${arg0}, ${arg1})',
-            func: (a: number, b: number) => a + b,
-            returnType: [CODEMIRROR_TYPE.number],
-            paramTypes: [[CODEMIRROR_TYPE.number], [CODEMIRROR_TYPE.number]]
-        }
-    ]
+    functions: getCodemirrorMetadata(new Config())
 })
 
 const extensions: Extension[] = [
